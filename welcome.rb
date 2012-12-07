@@ -5,12 +5,12 @@ require 'haml'
 require 'net/http'
 require 'uri'
 require 'open-uri'
-require 'oauth2'
 require 'less'
 require 'rest-client'
 require 'mongo'
 require 'mongoid'
 require 'rack-flash'
+require 'mechanize'
 
 use Rack::Flash
 
@@ -44,40 +44,40 @@ configure do
   #Less.paths << settings.views
 end
 
-Mongoid.configure do |config|
-    if ENV['MONGOLAB_URI']
-      conn = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
-      uri = URI.parse(ENV['MONGOLAB_URI'])
-      config.master = conn.db(uri.path.gsub(/^\//, ''))
-    else
-      config.master = Mongo::Connection.from_uri("mongodb://localhost:27017").db('device')
-    end
-end
+# Mongoid.configure do |config|
+#     if ENV['MONGOLAB_URI']
+#       conn = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
+#       uri = URI.parse(ENV['MONGOLAB_URI'])
+#       config.master = conn.db(uri.path.gsub(/^\//, ''))
+#     else
+#       config.master = Mongo::Connection.from_uri("mongodb://localhost:27017").db('device')
+#     end
+# end
 
-class Device
-    include Mongoid::Document
+# class Device
+#     include Mongoid::Document
     
-    field :reg_id, :type => String
-    field :os, :type => String, :default => 'android'    
-end
+#     field :reg_id, :type => String
+#     field :os, :type => String, :default => 'android'    
+# end
 
-class Log
-  include Mongoid::Document
+# class Log
+#   include Mongoid::Document
     
-    field :body, :type => 'String'
-    field :query_string, :type => 'String'
-    field :param, :type => 'String' 
-    field :t, :type => String, :default => 'device'
-end
+#     field :body, :type => 'String'
+#     field :query_string, :type => 'String'
+#     field :param, :type => 'String' 
+#     field :t, :type => String, :default => 'device'
+# end
 
 
-class Message
-    include Mongoid::Document
+# class Message
+#     include Mongoid::Document
     
-    field :body, :type => 'String'
-    field :url,  :type => 'String'
-    field :send_at, :type => Array, :default => []
-end
+#     field :body, :type => 'String'
+#     field :url,  :type => 'String'
+#     field :send_at, :type => Array, :default => []
+# end
 
 
 
@@ -93,6 +93,10 @@ end
 get '/' do
   messages = Message.all
   haml :index, :locals => {:messages => messages}  
+end
+
+get '/error' do
+  haml :error, :locals => {}  
 end
 
 get '/message/remove/:id' do |id|
@@ -212,4 +216,30 @@ get '/css/:style.css' do
   less params[:style].to_sym, :paths => ["public/css"], :layout => false
 end
 
+get '/m/:source/:section' do |source,section|
+  #assue funnymama for now
+  agent = Mechanize.new
+  begin
+    url = 'http://funnymama.com/'
+    url = "#{url}fun\/#{section}" unless 1 == section.to_i   
+    puts url
+    page = agent.get url
+    puts page.inspect
+    read_page(page).to_json
+  rescue e
+    flash[:notice] = "Invalid URL"
+    #redirect '/error'
+    raise e
+  end
+end
+
+def read_page page
+  meme = []
+  meme_on_page = page.search("article.post > .post-content > .post-img > a");
+  id = 0;
+  meme_on_page.each do |d|
+    meme.push({:url => d['href'], :src => d.children[1]['src']}) 
+  end
+  meme
+end
 

@@ -11,3 +11,4 @@ gem 'mongo'
 gem "mongoid", "~> 2.4"
 gem "bson_ext", "~> 1.5"
 gem 'rack-flash3'
+gem 'mechanize'
