@@ -216,6 +216,13 @@ get '/css/:style.css' do
   less params[:style].to_sym, :paths => ["public/css"], :layout => false
 end
 
+
+get '/m/list' do 
+  [{:n => 'funnymama', :t => 'Funny Mama', :u => 'http://funnymama.com'}, {:n => 'lolzhappen', :t => 'LolHappen', :u => 'LolHappen.com'}, ].to_json
+end
+
+
+
 get '/m/:source/:section' do |source,section|
   #assue funnymama for now
   agent = Mechanize.new
@@ -233,13 +240,25 @@ get '/m/:source/:section' do |source,section|
   end
 end
 
-def read_page page
-  meme = []
-  meme_on_page = page.search("article.post > .post-content > .post-img > a");
-  id = 0;
-  meme_on_page.each do |d|
-    meme.push({:url => d['href'], :src => d.children[1]['src']}) 
+
+class MemeParser 
+
+  def initialize url
+    @url = url
+    @agen = Mechanize.new
+    url = "#{url}fun\/#{section}" unless 1 == section.to_i   
+    
   end
-  meme
+
+  def read_page page
+      meme = []
+      meme_on_page = page.search("article.post > .post-content > .post-img > a");
+      id = 0;
+      meme_on_page.each do |d|
+        meme.push({:url => d['href'], :src => d.children[1]['src']}) 
+      end
+      meme
+  end
 end
+
 
