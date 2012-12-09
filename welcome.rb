@@ -218,7 +218,10 @@ end
 
 
 get '/m/list' do 
-  [{:n => 'funnymama', :t => 'Funny Mama', :u => 'http://funnymama.com'}, {:n => 'lolzhappen', :t => 'LolHappen', :u => 'LolHappen.com'}, ].to_json
+  [
+    {:name => 'funnymama',  :t => 'Funny Mama', :url => 'http://funnymama.com'}, 
+    {:name => 'lolzhappen', :t => 'LolHappen',  :url => 'LolHappen.com'}, 
+  ].to_json
 end
 
 
