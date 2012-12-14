@@ -1,4 +1,7 @@
 # encoding: utf-8
+#require "bundler/setup"
+$: << File.dirname(__FILE__)
+
 require 'sinatra'
 require 'json'
 require 'haml'
@@ -11,6 +14,7 @@ require 'mongo'
 require 'mongoid'
 require 'rack-flash'
 require 'mechanize'
+require 'meme/parser'
 
 use Rack::Flash
 
@@ -221,47 +225,21 @@ get '/m/list' do
   [
     {:name => 'funnymama',  :t => 'Funny Mama', :url => 'http://funnymama.com'}, 
     {:name => 'lolzhappen', :t => 'LolHappen',  :url => 'LolHappen.com'}, 
+    {:name => '9gag', :t => '9gag',  :url => '9gag.com'},   
   ].to_json
 end
 
 
-
 get '/m/:source/:section' do |source,section|
   #assue funnymama for now
-  agent = Mechanize.new
+  #agent = Mechanize.new
   begin
-    url = 'http://funnymama.com/'
-    url = "#{url}fun\/#{section}" unless 1 == section.to_i   
-    puts url
-    page = agent.get url
-    puts page.inspect
-    read_page(page).to_json
-  rescue e
+    parser = MemeParser.new(source)
+    meme = parser.fetch section
+    meme.to_json
+  rescue Exception => e 
     flash[:notice] = "Invalid URL"
     #redirect '/error'
     raise e
   end
 end
-
-
-class MemeParser 
-
-  def initialize url
-    @url = url
-    @agen = Mechanize.new
-    url = "#{url}fun\/#{section}" unless 1 == section.to_i   
-    
-  end
-
-  def read_page page
-      meme = []
-      meme_on_page = page.search("article.post > .post-content > .post-img > a");
-      id = 0;
-      meme_on_page.each do |d|
-        meme.push({:url => d['href'], :src => d.children[1]['src']}) 
-      end
-      meme
-  end
-end
-
-
