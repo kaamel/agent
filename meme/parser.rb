@@ -1,30 +1,27 @@
-class MemeParser 
+module Meme
 
-  def initialize source
-    @source = source
-    @url = 'http://funnymama.com/' #assume funny mama for now  
-    @agent = Mechanize.new    
-  end
+  class Parser 
 
-  def read_page page
-      meme = []
-      meme_on_page = page.search("article.post > .post-content > .post-img > a");
-      id = 0;
-      meme_on_page.each do |d|
-        meme.push({:url => d['href'], :src => d.children[1]['src']}) 
-      end
-      meme
-  end
+    def initialize source
+      puts "initialize #{source}"
+      @source = source
+      @url = 'http://funnymama.com/' #assume funny mama for now  
+      @agent = Mechanize.new 
+    end
 
-  def fetch section
-    url = @url;
-    url = "#{@url}fun\/#{section}" unless 1 == section.to_i   
-    puts url
-    page = @agent.get url
-    puts page.inspect
-    self.read_page(page)
+    def read_page page
+      puts "read_page is not implmented for #{@source} yet"
+    end
+
+    def fetch section
+      puts "fetch is not implemented for #{@source} yet" 
+    end
+
   end
 
 end
-
-
+#Dir[File.dirname(__FILE__) + "/meme/parser/*.rb"].each { |f| require(f) }
+Dir[File.dirname(__FILE__) + "/parser/*.rb"].each do |f|
+  puts "Found file: #{f}. About to load it"
+  require f
+end

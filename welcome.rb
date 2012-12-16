@@ -234,7 +234,7 @@ get '/m/:source/:section' do |source,section|
   #assue funnymama for now
   #agent = Mechanize.new
   begin
-    parser = MemeParser.new(source)
+    parser = Meme::Parser.new(source)
     meme = parser.fetch section
     meme.to_json
   rescue Exception => e 
