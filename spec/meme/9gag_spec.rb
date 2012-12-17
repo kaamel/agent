@@ -12,15 +12,15 @@ describe Meme::Parser do
 	    end
 	end
 
-	describe "#fetch" do
-		it "fetch resource 9gag and should return an array of a hash with :url and :src" do
-			@meme = @parser.fetch(1, 0, 0, 10)
-		  	pp @meme
-		  	@meme.should have(10).Hash
+	describe "#fetch" do		
+		it "contain 10 element" do
+			@meme = @parser.fetch(1, 0, 0, 10)		
+			@meme.should have(10).Hash
 		end
 
-		it "its content contaisn :url and :src" do
-			@meme[0].should include("src")
+		it "Some element must have :url and :src" do
+			#pp @meme
+  			@meme[0].should include(:url, :src)
 		end
 	end
 
