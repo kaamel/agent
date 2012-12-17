@@ -34,7 +34,6 @@ module Meme
           puts e.inspect
           raise e
         end
-        puts page.inspect
         self.read_page(page)
       else
         url = "#{@url}new/json?list=hot&id=#{end_id}"

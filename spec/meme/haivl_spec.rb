@@ -21,8 +21,8 @@ describe Meme::Parser do
 			    #redirect '/error'
 			    raise e
 		  	end	
+		  	pp meme
 		  	meme.count.should eql(8)
-
 		end
 	end
 

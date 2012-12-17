@@ -15,8 +15,8 @@ describe Meme::Parser do
 	describe "#fetch" do
 		it "fetch resource funnymama and should return an array of a hash with :url and :src" do
 			meme = @parser.fetch(1, 0, 0, 10)
+		  	pp meme
 		  	meme.count.should eql(10)
-
 		  	#meme[0][:src].should 
 		end
 	end
