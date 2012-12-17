@@ -20,18 +20,19 @@ module Meme
         meme
     end
 
-    def fetch section
-      url = @url;
+    def fetch(section, start_id=0, end_id=0, quantity=10)
+      url = @url
       url = "#{@url}fun\/#{section}" unless 1 == section.to_i   
       puts url
       page = @agent.get url
       #puts page.inspect
       self.read_page(page)
     end
+    
+    private 
+    def set_resource 
+      @url = 'http://funnymama.com/' #assume funny mama for now
+    end
 
-  	def self.test_a 
-  		puts "TETS TETSTTETTS ST"
-  	end
   end
 end
-puts "its runnign ehre lola asasha"

@@ -1,3 +1,4 @@
+require 'pathname'
 module Meme
 
   class Parser 
@@ -5,8 +6,10 @@ module Meme
     def initialize source
       puts "initialize #{source}"
       @source = source
-      @url = 'http://funnymama.com/' #assume funny mama for now  
       @agent = Mechanize.new 
+      f = File.dirname(__FILE__) + "/parser/#{source}.rb"
+      require(f) if Pathname.new(f).exist? 
+      set_resource
     end
 
     def read_page page
@@ -16,12 +19,18 @@ module Meme
     def fetch section
       puts "fetch is not implemented for #{@source} yet" 
     end
+    
+    private 
+    
+    def set_resource 
+      puts "Implement some resouce for specified memesite here"
+    end
 
   end
 
 end
 #Dir[File.dirname(__FILE__) + "/meme/parser/*.rb"].each { |f| require(f) }
-Dir[File.dirname(__FILE__) + "/parser/*.rb"].each do |f|
-  puts "Found file: #{f}. About to load it"
-  require f
-end
+#Dir[File.dirname(__FILE__) + "/parser/*.rb"].each do |f|
+#  puts "Found file: #{f}. About to load it"
+#  require f
+#end

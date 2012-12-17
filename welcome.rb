@@ -230,12 +230,12 @@ get '/m/list' do
 end
 
 
-get '/m/:source/:section' do |source,section|
+get '/m/:source/:section,:start_id,:end_id:,:quantity' do |source,section,start_id,end_id,quantity|
   #assue funnymama for now
   #agent = Mechanize.new
   begin
     parser = Meme::Parser.new(source)
-    meme = parser.fetch section
+    meme = parser.fetch(section, start_id, end_id, quantity)
     meme.to_json
   rescue Exception => e 
     flash[:notice] = "Invalid URL"
