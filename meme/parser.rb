@@ -1,4 +1,11 @@
+require 'json'
+require 'net/http'
+require 'uri'
+require 'open-uri'
+require 'rest-client'
+require 'mechanize'
 require 'pathname'
+
 module Meme
 
   class Parser 

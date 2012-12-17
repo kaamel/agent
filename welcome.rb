@@ -13,7 +13,6 @@ require 'rest-client'
 require 'mongo'
 require 'mongoid'
 require 'rack-flash'
-require 'mechanize'
 require 'meme/parser'
 
 use Rack::Flash
