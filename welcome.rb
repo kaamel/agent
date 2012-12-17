@@ -223,9 +223,11 @@ end
 
 get '/m/list' do 
   [
-    {:name => 'funnymama',  :t => 'Funny Mama', :url => 'http://funnymama.com'}, 
-    {:name => 'lolzhappen', :t => 'LolHappen',  :url => 'LolHappen.com'}, 
-    {:name => '9gag', :t => '9gag',  :url => '9gag.com'},   
+    {:name => 'funnymama',  :t => 'Funny Mama', :u => 'http://funnymama.com', :l => 'en'}, 
+    {:name => '9gag', :t => '9gag',  :u => '9gag.com', :l => 'en'}, 
+    {:name => 'haivl', :t => 'HaiVL',  :u => 'haivl.com', :l => 'vn'}, 
+    {:name => 'lolhappen', :t => 'Lolz Happen',  :u => 'lolhappen.com', :l => 'en'}, 
+      
   ].to_json
 end
 
