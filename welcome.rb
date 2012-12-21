@@ -231,7 +231,7 @@ get '/m/list' do
 end
 
 
-get '/m/:source/:section,:start_id,:end_id:,:quantity' do |source,section,start_id,end_id,quantity|
+get '/m/:source/:section,:start_id,:end_id,:quantity' do |source,section,start_id,end_id,quantity|
   #assue funnymama for now
   #agent = Mechanize.new
   begin
