@@ -9,7 +9,7 @@ module Meme
           meme.push(
             {
               :url => d['href'], 
-              :src => d.children[1]['src'],
+              :src => build_photo_url(d.children[1]['src']),
               # :info => {
               #   :comment =>
               #   :like => 
@@ -33,6 +33,11 @@ module Meme
     def set_resource 
       @url = 'http://funnymama.com/' #assume funny mama for now
     end
+
+    def build_photo_url photo
+      return photo.gsub("_460x.jpg", '-600x.jpg')
+    end
+
 
   end
 end
