@@ -223,7 +223,7 @@ end
 get '/m/list' do 
   [
     {:name => 'funnymama',  :t => 'Funny Mama', :u => 'http://funnymama.com', :l => 'en'}, 
-    {:name => '9gag', :t => '9gag',  :u => '9gag.com', :l => 'en'}, 
+    {:name => 'ninegag', :t => '9gag',  :u => '9gag.com', :l => 'en'}, 
     {:name => 'haivl', :t => 'HaiVL',  :u => 'haivl.com', :l => 'vn'}, 
     {:name => 'lolhappen', :t => 'Lolz Happen',  :u => 'lolhappen.com', :l => 'en'}, 
       
@@ -235,7 +235,7 @@ get '/m/:source/:section,:start_id,:end_id,:quantity' do |source,section,start_i
   #assue funnymama for now
   #agent = Mechanize.new
   begin
-    parser = Meme::Parser.new(source)
+    parser = Meme::Parser.create(source)
     meme = parser.fetch(section, start_id, end_id, quantity)
     meme.to_json
   rescue Exception => e 
