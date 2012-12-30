@@ -6,12 +6,12 @@ module Meme
     	def read_page page
           meme = []
           meme_on_page = page.search("#entry-list > #entry-list-ul > .entry-item");
-          id = 0;
           meme_on_page.each do |d|
             meme.push(
               {
                 :url => d['data-url'], 
                 :src => build_photo_url(d['gagid'], 700, :b), 
+                :id  => d['gagid'].to_i,
                 # 9gag follows a pattern for its pictur. d.children[1]['src'],
                 #http://d24w6bsrhbeh9d.cloudfront.net/photo/6087941_460s.jpg
                 # the pattern may change in future so it's better to build this dynamically

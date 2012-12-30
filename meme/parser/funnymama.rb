@@ -6,12 +6,12 @@ module Meme
     	def read_page page
           meme = []
           meme_on_page = page.search("article.post > .post-content > .post-img > a");
-          id = 0;
           meme_on_page.each do |d|
             meme.push(
               {
                 :url => d['href'], 
                 :src => build_photo_url(d.children[1]['src']),
+                :id  => get_meme_id(d['href']),                
                 # :info => {
                 #   :comment =>
                 #   :like => 
@@ -32,6 +32,10 @@ module Meme
       end
 
       private 
+        def get_meme_id post_url
+          post_url.sub!('/post/','').to_i
+        end
+
         def set_resource 
           @url = 'http://funnymama.com/' #assume funny mama for now
         end

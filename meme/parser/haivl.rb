@@ -13,6 +13,7 @@ module Meme
               {
                 :url => d.children[3].children[1]['href'], 
                 :src => build_photo_url(d.children[3].children[1].children[1]['src']),
+                :id  => get_meme_id(d.children[3].children[1]['href']),                
               }
             ) 
           end
@@ -34,6 +35,10 @@ module Meme
       end
 
       private
+
+      def get_meme_id(post_url)
+        post_url.sub!('/photo/','').to_i
+      end
 
       def set_resource 
         @url = 'http://www.haivl.com/' 
