@@ -49,6 +49,7 @@ module Meme
             meme.push({
               :url => build_post_url(id),
               :src => build_photo_url(id, 700, :b),
+              :id => id.to_i
             })
           end        
           meme
