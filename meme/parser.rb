@@ -34,7 +34,11 @@ module Meme
       def fetch section
         puts "fetch is not implemented for #{@source} yet" 
       end
-      
+
+      def comment_url
+        puts "comment_url is not implemented for #{@source} yet" 
+      end
+
       private 
       
       def set_resource 
