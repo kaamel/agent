@@ -20,7 +20,7 @@ module Meme
             ameme[:info][:share] = Hash.new
           end
               
-          info_type = 0;
+          info_type = 0
           d.css(".post-info .post-info-shares li > span").each do |node|
             pp node.children 
 
