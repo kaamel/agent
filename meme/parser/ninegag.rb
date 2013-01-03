@@ -72,12 +72,38 @@ module Meme
           # end
 
           response['items'].each do |k, v|
-            meme.push({
+            node = Nokogiri::HTML(v)
+            pp node
+            id = node['gagId']
+            ameme = {
               :url => build_post_url(id),
               :src => build_photo_url(id, 700, :b),
-              :id => id.to_i
-            })
-            
+              :id => id.to_i,
+              :comment_url => comment_url(id),
+              :info => Hash.new 
+            }
+
+            info_type = 0
+            node.css(".info .actions-wrap p span").each do |stat_node|
+              case info_type
+                when 0
+                  ameme[:info][:comment] = stat_node.children.to_s
+                when 1                  
+                  ameme[:info][:like] = stat_node.children.to_s                
+              end
+              info_type = info_type + 1
+            end
+
+            ameme[:info][:share] = Hash.new
+            node.css(".info .actions-wrap .sharing-box .b2-widget-count > div.b2-widget-val").each do |stat_node|
+              ameme[:info][:share][:twitter] = stat_node.children.to_s                    
+            end
+
+            node.css(".info .actions-wrap .sharing-box .facebook_share_count_inner").each do |stat_node|
+              ameme[:info][:share][:facebook] = stat_node.children.to_s                    
+            end
+
+            meme.push(ameme)            
           end        
           meme
         end        
