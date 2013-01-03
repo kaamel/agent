@@ -37,6 +37,10 @@ module Meme
               ameme[:info][:share][:facebook] = node.children.to_s                    
             end
 
+            d.css(".info > .sticky-items > h1 >a").each do |title|
+              ameme[:title] = title.children.to_s
+            end
+
             meme.push(ameme) 
           end
           meme
@@ -101,6 +105,10 @@ module Meme
 
             node.css(".info .actions-wrap .sharing-box .facebook_share_count_inner").each do |stat_node|
               ameme[:info][:share][:facebook] = stat_node.children.to_s                    
+            end
+
+            node.css(".info > .sticky-items > h1 >a").each do |title|
+              ameme[:title] = title.children.to_s
             end
 
             meme.push(ameme)            

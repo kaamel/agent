@@ -6,10 +6,14 @@ module Meme
     	
       def read_page page
         meme = []
-        meme_on_page = page.search("article.post > .post-content")# > .post-img > a");
+        meme_on_page = page.search("article.post")# > .post-img > a");
         meme_on_page.each do |d|
           ameme = Hash.new
 
+          d.css("h2 > a").each do |node|
+            ameme[:title] = node.children.to_s
+          end
+          
           d.css(".post-img a").each do |node|
             pp node
             ameme[:url] = node['href']
@@ -53,7 +57,7 @@ module Meme
       end
 
       def comment_url meme_id
-        "https://www.facebook.com/plugins/comments.php?api_key=111569915535689&locale=en_US&sdk=joey&channel_url=https%3A%2F%2Fs-static.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df4ae20df94368a%26origin%3Dhttps%253A%252F%252F9gag.com%252Ff347388e2f6e8%26domain%3D9gag.com%26relation%3Dparent.parent&numposts=10&width=320&href=http%3A%2F%2F9gag.com%2Fgag%2F#{meme_id}"
+        "https://www.facebook.com/plugins/comments.php?api_key=326365540733523&locale=en_US&sdk=joey&channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df3bf10e44938bba%26origin%3Dhttp%253A%252F%252Ffunnymama.com%252Ff28e648bae2eb96%26domain%3Dfunnymama.com%26relation%3Dparent.parent&numposts=10&width=320&href=http%3A%2F%2Ffunnymama.com%2Fpost%2F#{meme_id}"
       end
 
       private 
