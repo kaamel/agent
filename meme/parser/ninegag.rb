@@ -10,11 +10,14 @@ module Meme
             ameme = Hash.new
 
             ameme[:url] = d['data-url']
-            ameme[:src] = build_photo_url(d['gagid'], 700, :b)
             ameme[:id]  = d['gagid'].to_i
             ameme[:comment_url] = comment_url(d['gagid'].to_i)
             ameme[:info] = Hash.new 
             ameme[:info][:share] = Hash.new
+            
+            d.css(".content > .img-wrap > a> img").each do |node|
+              ameme[:src] = build_photo_url(node['src'], 700, :b)
+            end
 
             info_type = 0
             d.css(".info .actions-wrap p span").each do |node|
@@ -87,6 +90,10 @@ module Meme
               :info => Hash.new 
             }
 
+            node.css(".content > .img-wrap > a> img").each do |img|
+              ameme[:src] = build_photo_url(img['src'], 700, :b)
+            end
+
             info_type = 0
             node.css(".info .actions-wrap p span").each do |stat_node|
               case info_type
@@ -128,8 +135,8 @@ module Meme
         puts "Set resource for 9gag site"
       end
 
-      def build_photo_url(id, size, scale)
-        "http://d24w6bsrhbeh9d.cloudfront.net/photo/#{id}_#{size}#{scale}.jpg"
+      def build_photo_url(photo_url, size, scale)
+        photo_url.gsub('460s', "#{size}#{scale}")
       end
 
       def build_post_url id
