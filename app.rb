@@ -222,10 +222,14 @@ end
 
 get '/m/list' do 
   [
-    {:name => 'funnymama',  :t => 'Funny Mama', :u => 'http://funnymama.com', :l => 'en'}, 
-    {:name => 'ninegag', :t => '9gag',  :u => '9gag.com', :l => 'en'}, 
-    {:name => 'haivl', :t => 'HaiVL',  :u => 'haivl.com', :l => 'vn'}, 
-    {:name => 'lolhappen', :t => 'Lolz Happen',  :u => 'lolhappen.com', :l => 'en'}, 
+    {:name => 'funnymama',  :t => 'Funny Mama', :u => 'http://funnymama.com', :l => 'en', :i => 'https://www.dropbox.com/s/dm8rv2jac00lrdz/funnymama.png', :in => 'funnymama.png'}, 
+    {:name => 'ninegag', :t => '9gag',  :u => '9gag.com', :l => 'en', :i => 'https://www.dropbox.com/s/dyj4v3f6rnosyux/9gag.png', :in => '9gag.png'}, 
+    {:name => 'lolhappen', :t => 'Lolz Happen',  :u => 'lolhappen.com', :l => 'en', :i => 'https://www.dropbox.com/s/t6ak3anqsgut7lv/lolhappen.png', :in => 'lolhappen.png'},      
+    {:name => 'haivl', :t => 'HaiVL',  :u => 'haivl.com', :l => 'vn', :i => 'https://www.dropbox.com/s/f0nhxtys9qry442/haivl.png', :in => 'haivl.png'},
+    {:name => 'epic', :t => 'Epic.VN',  :u => 'epic.vn', :l => 'vn', :i => 'https://www.dropbox.com/s/8t2tzoih3mkn809/epicvn.png', :in => 'epicvn.png'}, 
+    {:name => 'oathmeal', :t => 'The Oathmeal',  :u => 'theoathmeal.com', :l => 'vn', :i => 'https://www.dropbox.com/s/yp99qi2aqdu1o88/theoatmeal.png', :in => 'theoatmeal.png'},  
+    {:name => 'xkcd', :t => 'XKCD',  :u => 'xkcd.com', :l => 'vn', :i => 'https://www.dropbox.com/s/o98dk5s6r4dttcs/xkcd.png'}, 
+    # {:name => 'editor', :t => 'Editor Pick',  :u => 'meme.axcoto.com', :l => 'en'}, 
       
   ].to_json
 end
