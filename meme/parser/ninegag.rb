@@ -84,7 +84,6 @@ module Meme
             id = node['gagId']
             ameme = {
               :url => build_post_url(id),
-              :src => build_photo_url(id, 700, :b),
               :id => id.to_i,
               :comment_url => comment_url(id),
               :info => Hash.new 
