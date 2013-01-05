@@ -1,4 +1,4 @@
-module Meme
+  module Meme
 
   module Parser
     
@@ -6,42 +6,35 @@ module Meme
     	
       def read_page page
         meme = []
-        meme_on_page = page.search("article.post")# > .post-img > a");
+        meme_on_page = page.search("li.gag-link")# > .post-img > a");
         meme_on_page.each do |d|
           ameme = Hash.new
 
-          d.css("h2 > a").each do |node|
+          d.css(".info h1 > a").each do |node|
             ameme[:title] = node.children.to_s
           end
           
-          d.css(".post-img a").each do |node|
+          d.css(".img-wrap > a").each do |node|
             pp node
             ameme[:url] = node['href']
-            ameme[:src] = build_photo_url(node.children[1]['src'])
-            ameme[:id]  = get_meme_id(node['href'])            
-            ameme[:comment_url] = comment_url(get_meme_id(node['href']))
+            ameme[:id]  = get_meme_id(node['href'])  
+            ameme[:src] = build_photo_url(node.children[0]['src'])                      
+            ameme[:comment_url] = comment_url(ameme[:id])
             ameme[:info] = Hash.new 
             ameme[:info][:share] = Hash.new
           end
-              
-          info_type = 0
-          d.css(".post-info .post-info-shares li > span").each do |node|
-            pp node.children 
-
-            case info_type
-              when 0
-                ameme[:info][:comment] = node.children.to_s
-              when 1                  
-                ameme[:info][:like] = node.children.to_s
-              when 2                  
-                ameme[:info][:share][:facebook] = node.children.to_s
-              when 3                  
-                ameme[:info][:share][:twitter] = node.children.to_s
-            end
-
-            info_type = info_type + 1    
-
-          end
+          
+          like_node = d.css(".actions-wrap > p > span.viewd");
+          ameme[:info][:like] = like_node.first.children.to_s
+          
+          fql_comment = "SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27http://epic.vn/p/#{ameme[:id]}%27"
+          #response = RestClient.get "https://graph.facebook.com/fql", {:params => {:q => fql_comment}}     
+          
+          #response = JSON.parse reponse.to_str
+          #pp reponse
+          #ameme[:info][:comment] = response[:data].first[:comment_count]
+          #ameme[:info][:share][:facebook] = response[:data].first[:share_count]
+          
           meme.push(ameme) 
         end
         meme
@@ -49,7 +42,7 @@ module Meme
 
       def fetch(section, start_id=0, end_id=0, quantity=10)
         url = @url
-        url = "#{@url}fun\/#{section}" unless 1 == section.to_i   
+        url = "#{@url}votejson.php?page=#{section}" unless 1 == section.to_i   
         puts url
         page = @agent.get url
         #puts page.inspect
@@ -57,20 +50,20 @@ module Meme
       end
 
       def comment_url meme_id
-        "https://www.facebook.com/plugins/comments.php?api_key=326365540733523&locale=en_US&sdk=joey&channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df3bf10e44938bba%26origin%3Dhttp%253A%252F%252Ffunnymama.com%252Ff28e648bae2eb96%26domain%3Dfunnymama.com%26relation%3Dparent.parent&numposts=10&width=320&href=http%3A%2F%2Ffunnymama.com%2Fpost%2F#{meme_id}"
+        "https://www.facebook.com/plugins/comments.php?api_key=266042506822119&locale=vi_VN&sdk=joey&channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df3d969bd93e0516%26origin%3Dhttp%253A%252F%252Fepic.vn%252Ffc3da058f922f2%26domain%3Depic.vn%26relation%3Dparent.parent&numposts=10&width=700&href=http%3A%2F%2Fepic.vn%2Fp%2F#{meme_id}"
       end
 
       private 
         def get_meme_id post_url
-          post_url.sub!('/post/','').to_i
+          post_url.sub!('http://epic.vn/p/','').to_i
         end
 
         def set_resource 
           @url = 'http://epic.vn/' 
         end
 
-        def build_photo_url photo_id
-          "http://img.epic.vn/#{photo_id}.jpg"
+        def build_photo_url photo_url
+          photo_url
         end
 
     end 
