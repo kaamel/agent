@@ -79,9 +79,11 @@ module Meme
           # end
 
           response['items'].each do |k, v|
-            node = Nokogiri::HTML(v)
-            pp node
+            dom = Nokogiri::HTML(v)
+            node = dom.css('li.entry-item').first
             id = node['gagid']
+            pp node
+            puts "====================================="
             ameme = {
               :url => build_post_url(id),
               :id => id.to_i,
