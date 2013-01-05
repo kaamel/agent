@@ -81,7 +81,7 @@ module Meme
           response['items'].each do |k, v|
             node = Nokogiri::HTML(v)
             pp node
-            id = node['gagId']
+            id = node['gagid']
             ameme = {
               :url => build_post_url(id),
               :id => id.to_i,
