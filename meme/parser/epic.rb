@@ -15,22 +15,28 @@
           end
           
           node = d.css(".img-wrap > a").first          
-          if (node.children[0]['class']=='loadpic')
-            pp node
+          pp node.children[0]
+          if (node.children.length==1 && node.children[0]['class']=='loadpic')
             ameme[:url] = node['href']
             ameme[:id]  = get_meme_id(node['href'])  
             ameme[:src] = build_photo_url(node.children[0]['src'])                      
             ameme[:comment_url] = comment_url(ameme[:id])
             ameme[:info] = Hash.new 
             ameme[:info][:share] = Hash.new
-          else
-            return
+          
+            like_node = d.css(".actions-wrap > p > span.viewd");
+          
+          p "============"
+          pp like_node.first.children[1]
+          p "============"
+          begin 
+            ameme[:info][:like] = like_node.first.children[1].to_s
+          rescue Exception => e
+              ameme[:info][:like] = 0
           end
 
-          like_node = d.css(".actions-wrap > p > span.viewd");
-          ameme[:info][:like] = like_node.first.children.to_s
-          
           fql_comment = "SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%27http://epic.vn/p/#{ameme[:id]}%27"
+          
           #response = RestClient.get "https://graph.facebook.com/fql", {:params => {:q => fql_comment}}     
           
           #response = JSON.parse reponse.to_str
@@ -38,7 +44,10 @@
           #ameme[:info][:comment] = response[:data].first[:comment_count]
           #ameme[:info][:share][:facebook] = response[:data].first[:share_count]
           
-          meme.push(ameme) 
+            meme.push(ameme) 
+
+
+          end
         end
         meme
       end
