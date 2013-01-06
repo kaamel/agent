@@ -14,7 +14,8 @@
             ameme[:title] = node.children.to_s
           end
           
-          d.css(".img-wrap > a").each do |node|
+          node = d.css(".img-wrap > a").first          
+          if (node.children[0]['class']=='loadpic')
             pp node
             ameme[:url] = node['href']
             ameme[:id]  = get_meme_id(node['href'])  
@@ -22,8 +23,10 @@
             ameme[:comment_url] = comment_url(ameme[:id])
             ameme[:info] = Hash.new 
             ameme[:info][:share] = Hash.new
+          else
+            return
           end
-          
+
           like_node = d.css(".actions-wrap > p > span.viewd");
           ameme[:info][:like] = like_node.first.children.to_s
           
