@@ -10,7 +10,6 @@ module Meme
           meme_on_page.each do |d|
             #pp d
             ameme = {
-                :url => d.children[3].children[1]['href'], 
                 :src => build_photo_url(d.children[3].children[1].children[1]['src']),
                 :id  => get_meme_id(d.children[3].children[1]['href']),      
                 :comment_url => comment_url(get_meme_id(d.children[3].children[1]['href'])),           
@@ -19,6 +18,8 @@ module Meme
                   :like => 0
                 }          
             }
+            ameme[:url] = build_post_url(ameme[:id])
+                
             info_type = 1;
             stat = d.css(".stats > span").each do |node|
               pp node
@@ -72,6 +73,11 @@ module Meme
       def build_photo_url photo
         return photo.gsub("-400.jpg", '-650.jpg')
       end
+
+        def build_post_url id
+          "#{@url}/photo/#{id}"
+        end
+
 
     end  
 

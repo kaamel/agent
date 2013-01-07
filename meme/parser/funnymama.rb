@@ -16,9 +16,9 @@ module Meme
           
           d.css(".post-img a").each do |node|
             pp node
-            ameme[:url] = node['href']
-            ameme[:src] = build_photo_url(node.children[1]['src'])
             ameme[:id]  = get_meme_id(node['href'])            
+            ameme[:src] = build_photo_url(node.children[1]['src'])
+            ameme[:url] = build_post_url(ameme[:id])
             ameme[:comment_url] = comment_url(get_meme_id(node['href']))
             ameme[:info] = Hash.new 
             ameme[:info][:share] = Hash.new
@@ -71,6 +71,10 @@ module Meme
 
         def build_photo_url photo
           return photo.gsub("_460x.jpg", '_600x.jpg')
+        end
+
+        def build_post_url id
+          "#{@url}/post/#{id}"
         end
 
     end 

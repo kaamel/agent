@@ -9,9 +9,9 @@ module Meme
           meme_on_page.each do |d|
             ameme = Hash.new
 
-            ameme[:url] = d['data-url']
             ameme[:id]  = d['gagid'].to_i
-            ameme[:comment_url] = comment_url(d['gagid'].to_i)
+            ameme[:url] = build_post_url(ameme[:id]) #d['data-url']
+            ameme[:comment_url] = comment_url(ameme[:id])
             ameme[:info] = Hash.new 
             ameme[:info][:share] = Hash.new
             

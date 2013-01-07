@@ -17,8 +17,8 @@
           node = d.css(".img-wrap > a").first          
           pp node.children[0]
           if (node.children.length==1 && node.children[0]['class']=='loadpic')
-            ameme[:url] = node['href']
             ameme[:id]  = get_meme_id(node['href'])  
+            ameme[:url] = build_post_url(ameme[:id])
             ameme[:src] = build_photo_url(node.children[0]['src'])                      
             ameme[:comment_url] = comment_url(ameme[:id])
             ameme[:info] = Hash.new 
@@ -76,6 +76,10 @@
 
         def build_photo_url photo_url
           photo_url
+        end
+
+        def build_post_url id
+          "#{@url}/p/#{id}"
         end
 
     end 
