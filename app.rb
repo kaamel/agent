@@ -227,7 +227,7 @@ get '/m/list' do
     {:name => 'lolhappen', :t => 'Lolz Happen',  :u => 'lolhappen.com', :l => 'en', :i => 'https://www.dropbox.com/s/t6ak3anqsgut7lv/lolhappen.png?dl=1', :in => 'lolhappen.png'},      
     {:name => 'haivl', :t => 'HaiVL',  :u => 'haivl.com', :l => 'vn', :i => 'https://www.dropbox.com/s/f0nhxtys9qry442/haivl.png?dl=1', :in => 'haivl.png'},
     {:name => 'epic', :t => 'Epic.VN',  :u => 'epic.vn', :l => 'vn', :i => 'https://www.dropbox.com/s/8t2tzoih3mkn809/epicvn.png?dl=1', :in => 'epicvn.png'}, 
-    {:name => 'oathmeal', :t => 'The Oathmeal',  :u => 'theoathmeal.com', :l => 'vn', :i => 'https://www.dropbox.com/s/yp99qi2aqdu1o88/theoatmeal.png?dl=1', :in => 'theoatmeal.png'},  
+    #{:name => 'oathmeal', :t => 'The Oathmeal',  :u => 'theoathmeal.com', :l => 'vn', :i => 'https://www.dropbox.com/s/yp99qi2aqdu1o88/theoatmeal.png?dl=1', :in => 'theoatmeal.png'},  
     {:name => 'xkcd', :t => 'XKCD',  :u => 'xkcd.com', :l => 'vn', :i => 'https://www.dropbox.com/s/o98dk5s6r4dttcs/xkcd.png?dl=1'}, 
     # {:name => 'editor', :t => 'Editor Pick',  :u => 'meme.axcoto.com', :l => 'en'}, 
       
